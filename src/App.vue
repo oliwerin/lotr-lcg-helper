@@ -1,14 +1,14 @@
+
 <template>
   <div id="app">
     <h1>{{ title }}</h1>
     <ul v-if="!gameStarted">
-      <li><button @click="startGame(1)">1 player</button></li>
-      <li><button @click="startGame(2)">2 players</button></li>
-      <li><button @click="startGame(3)">3 players</button></li>
-      <li><button @click="startGame(4)">4 players</button></li>
+      <li v-for="n in 4" :key="n">
+        <button @click="startGame(n)">{{n}} player</button>
+      </li>
     </ul>
     <div v-if="gameStarted">
-      <button class="btn-smaller" @click="backToSetPlayers">set players number</button>
+      <button class="btn-small" @click="backToSetPlayers">set players number</button>
       <ThreatCounter v-for="player in players" 
         :key="player.number"
         :threatLevelSetter="setThreatLevel"
@@ -26,7 +26,7 @@
       <div class="section flex-column">
         <button @click="advanceTurn">next turn</button>
         <label><input v-model="increaseThreat" type="checkbox">increase threat</label>
-        <button class="btn-smaller" @click="resetGame">reset game</button>
+        <button class="btn-small" @click="resetGame">reset game</button>
       </div>
     </div>
   </div>
@@ -108,75 +108,7 @@ export default {
 </script>
 
 <style lang="scss">
-$primary-color: rgb(1, 17, 36);
-$secondary-color: rgb(223, 223, 223);
-$orange: orange;
-$breakpoint: 768px;
-
-@mixin respond-to-large {
-  @media (min-width: $breakpoint) { @content; }
-}
-
-html {
-  font-size: 62.5%;
-}
-
-body {
-  background: $primary-color;
-  color: $secondary-color;
-}
-
-p {
-  margin: 1rem 0;
-}
-
-ul {
-  margin-top: 3rem;
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin: 1rem 0;
-}
-
-button {
-  background: transparent;
-  color: $orange;
-  border: 1px solid $orange;
-  border-radius: 5px;
-  font-size: 1.8rem;
-  padding: 1rem;
-  margin: 0.5rem 1rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  max-width: 160px;
-
-  &:hover {
-    background: $orange;
-    color: $primary-color;
-  }
-
-  &:first-of-type,
-  &:last-of-type {
-    margin: 0.5rem 0;
-  }
-}
-
-label {
-  font-size: 1.3rem;
-  text-transform: uppercase;
-  margin: 1rem;
-}
-
-h1 {
-  font-size: 2rem;
-}
-
-h2 {
-  font-size: 1.8rem;
-  margin: 0 0 1rem;
-}
+@import "sass/main";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -253,7 +185,7 @@ h2 {
   }
 }
 
-.btn-smaller {
+.btn-small {
   font-size: 1.2rem;
   padding: 0.8rem;
 }

@@ -1,0 +1,63 @@
+@import "colors";
+@import "mixins";
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background: $primary-color;
+  color: $secondary-color;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+ul {
+  margin-top: 3rem;
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 1rem 0;
+}
+
+button {
+  background: transparent;
+  color: $orange;
+  border: 1px solid $orange;
+  border-radius: 5px;
+  font-size: 1.8rem;
+  padding: 1rem;
+  margin: 0.5rem 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  max-width: 160px;
+
+  &:hover {
+    background: $orange;
+    color: $primary-color;
+  }
+
+  &:first-of-type,
+  &:last-of-type {
+    margin: 0.5rem 0;
+  }
+}
+
+label {
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  margin: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin: 0 0 1rem;
+}
