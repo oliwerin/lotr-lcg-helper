@@ -1,9 +1,10 @@
 <template>
   <div class="section">
-    <h2>
-      {{ player.name }}
-      <span v-show="isActive">(active)</span>
-    </h2>
+    <PlayerName 
+      :nameSetter="nameSetter" 
+      :name="player.name"
+      :number="player.number"
+      :isActive="isActive"/>
     <div class="flex-row">
       <button @click="threatLevelSetter(player.number, -3)">-3</button>
       <button @click="threatLevelSetter(player.number, -1)">-1</button>
@@ -18,10 +19,19 @@
 </template>
 
 <script>
+import PlayerName from './PlayerName.vue';
+
 export default {
   name: 'ThreatCounter',
+  components: {
+    PlayerName,
+  },
   props: {
     threatLevelSetter: {
+      type: Function,
+      required: true,
+    },
+    nameSetter: {
       type: Function,
       required: true,
     },

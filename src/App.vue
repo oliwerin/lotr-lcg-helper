@@ -11,7 +11,8 @@
       <button class="btn-small" @click="backToSetPlayers">set players number</button>
       <ThreatCounter v-for="player in players" 
         :key="player.number"
-        :threatLevelSetter="setThreatLevel"
+        :nameSetter="setPlayerName"
+        :threatLevelSetter="setPlayerThreatLevel"
         :isActive="player.number === activePlayer"
         :player="player"
       />
@@ -73,8 +74,12 @@ export default {
       this.gameStarted = true;
     },
 
-    setThreatLevel(playerNumber, modifier) {
+    setPlayerThreatLevel(playerNumber, modifier) {
       this.players[playerNumber - 1].threat += modifier;
+    },
+
+    setPlayerName(playerNumber, name) {
+      this.players[playerNumber - 1].name = name;
     },
 
     setTurn(modifier) {
