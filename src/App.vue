@@ -64,17 +64,24 @@ export default {
         });
       }
 
+      this.setInitialGameState();
+    },
+
+    setInitialGameState() {
       this.turn = 1;
       this.activePlayer = 1;
       this.gameStarted = true;
     },
+
     setThreatLevel(playerNumber, modifier) {
       this.players[playerNumber - 1].threat += modifier;
     },
+
     setTurn(modifier) {
       this.turn += modifier;
       this.changeActivePlayer(modifier > 0);
     },
+
     advanceTurn() {
       this.turn += 1;
       this.changeActivePlayer();
@@ -84,16 +91,17 @@ export default {
           .map(player => Object.assign({}, player, { threat: player.threat + 1 }));
       }
     },
-    resetGame() {
-      this.turn = 1;
-      this.activePlayer = 1;
 
+    resetGame() {
+      this.setInitialGameState();
       this.players = this.players
         .map(player => Object.assign({}, player, { threat: INITIAL_THREAT }));
     },
+
     backToSetPlayers() {
       this.gameStarted = false;
     },
+
     changeActivePlayer(clockwise = true) {
       this.activePlayer += clockwise ? 1 : -1;
 
