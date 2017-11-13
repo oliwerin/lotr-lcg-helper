@@ -17,12 +17,12 @@
         :player="player"
       />
       <div class="section flex-row">
-          <button @click="setTurn(-1)">-1</button>
-          <div class="circle circle-small">
-            <p class="circle-value">{{ turn }}</p>
-            <p class="circle-label">TURN</p>
-          </div>
-          <button @click="setTurn(1)">+1</button>
+        <button @click="setTurn(-1)">-1</button>
+        <div class="circle circle-small">
+          <p class="circle-value">{{ turn }}</p>
+          <p class="circle-label">TURN</p>
+        </div>
+        <button @click="setTurn(1)">+1</button>
       </div>
       <div class="section flex-column">
         <button @click="advanceTurn">next turn</button>

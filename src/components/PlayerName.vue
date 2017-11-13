@@ -37,10 +37,7 @@ export default {
   methods: {
     showInput() {
       this.isInputVisible = true;
-
-      if (this.isInputVisible) {
-        this.$nextTick(() => this.$refs.input.focus());
-      }
+      this.$nextTick(() => this.$refs.input.focus());
     },
 
     hideInput() {
