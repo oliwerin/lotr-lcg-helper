@@ -1,7 +1,6 @@
-
 <template>
-  <div id="app">
-    <h1>{{ title }}</h1>
+  <div class='app'>
+    <h1>Lord of the Rings LCG Helper</h1>
     <ul v-if="!gameStarted">
       <li v-for="n in 4" :key="n">
         <button @click="startGame(n)">{{n}} player</button>
@@ -17,12 +16,12 @@
         :player="player"
       />
       <div class="section flex-row">
-        <button @click="setTurn(-1)">-1</button>
+        <button @click="prevTurn">-1</button>
         <div class="circle circle-small">
           <p class="circle-value">{{ turn }}</p>
           <p class="circle-label">TURN</p>
         </div>
-        <button @click="setTurn(1)">+1</button>
+        <button @click="nextTurn">+1</button>
       </div>
       <div class="section flex-column">
         <button @click="advanceTurn">next turn</button>
@@ -43,78 +42,71 @@ export default {
   components: {
     ThreatCounter,
   },
-  data() {
-    return {
-      title: 'Lord of the Rings LCG Helper',
-      gameStarted: false,
-      turn: 1,
-      increaseThreat: true,
-      players: [],
-      activePlayer: null,
-    };
+  computed: {
+    turn() {
+      return this.$store.state.status.turn;
+    },
+
+    players() {
+      return this.$store.state.players;
+    },
+
+    activePlayer() {
+      return this.$store.state.status.activePlayer;
+    },
+
+    increaseThreat() {
+      return this.$store.state.status.increaseThreat;
+    },
+
+    gameStarted() {
+      return this.$store.state.status.gameStarted;
+    },
   },
   methods: {
     startGame(playersCount) {
-      this.players = [];
-
-      for (let i = 1; i <= playersCount; i += 1) {
-        this.players.push({
-          number: i,
-          name: `Player ${i}`,
-          threat: INITIAL_THREAT,
-        });
-      }
-
-      this.setInitialGameState();
-    },
-
-    setInitialGameState() {
-      this.turn = 1;
-      this.activePlayer = 1;
-      this.gameStarted = true;
-    },
-
-    setPlayerThreatLevel(playerNumber, modifier) {
-      this.players[playerNumber - 1].threat += modifier;
-    },
-
-    setPlayerName(playerNumber, name) {
-      this.players[playerNumber - 1].name = name;
-    },
-
-    setTurn(modifier) {
-      this.turn += modifier;
-      this.changeActivePlayer(modifier > 0);
+      this.$store.commit('setInitialGameState');
+      this.$store.commit('initializePlayers', {
+        playersCount,
+      });
     },
 
     advanceTurn() {
-      this.turn += 1;
-      this.changeActivePlayer();
-
-      if (this.increaseThreat) {
-        this.players = this.players
-          .map(player => Object.assign({}, player, { threat: player.threat + 1 }));
-      }
+      this.$store.commit('nextTurn');
+      this.$store.commit('setAllThreatLevels');
     },
 
     resetGame() {
-      this.setInitialGameState();
-      this.players = this.players
-        .map(player => Object.assign({}, player, { threat: INITIAL_THREAT }));
+      this.$store.commit('setInitialGameState');
+      this.$store.commit('setAllThreatLevels', {
+        threat: INITIAL_THREAT,
+      });
     },
 
     backToSetPlayers() {
-      this.gameStarted = false;
+      this.$store.commit('finishGame');
     },
 
-    changeActivePlayer(clockwise = true) {
-      this.activePlayer += clockwise ? 1 : -1;
+    nextTurn() {
+      this.$store.commit('nextTurn');
+    },
 
-      if (this.activePlayer === 0) {
-        this.activePlayer = this.players.length;
-      } else if (this.activePlayer === this.players.length + 1) {
-        this.activePlayer = 1;
-      }
+    prevTurn() {
+      this.$store.commit('prevTurn');
+    },
+
+    setPlayerThreatLevel(playerNumber, modifier) {
+      this.$store.commit('setPlayerThreatLevel', {
+        playerNumber,
+        modifier,
+      });
+    },
+
+    setPlayerName(playerNumber, name) {
+      this.$store.commit('setPlayerName', {
+        playerNumber,
+        name,
+      });
     },
   },
 };
@@ -123,7 +115,7 @@ export default {
 <style lang="scss">
 @import "sass/main";
 
-#app {
+.app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
