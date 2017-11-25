@@ -15,6 +15,12 @@ export const store = new Vuex.Store({
     },
     players: [],
   },
+  getters: {
+    score: state => state.players.length ? 
+      state.players.reduce(
+        (acc, player) => acc + player.threat, 0
+      ) + (state.status.turn * 10) : 0,
+  },
   mutations: {
     setInitialGameState: state => state.status = Object.assign({}, state.status, {
       turn: 1,

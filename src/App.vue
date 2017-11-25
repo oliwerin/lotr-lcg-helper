@@ -28,6 +28,8 @@
         <button @click="advanceTurn">next turn</button>
         <label><input v-model="increaseThreat" type="checkbox">increase threat</label>
         <button class="btn-small" @click="resetGame">reset game</button>
+        <p class="score">Score*: <b>{{ score }}</b></p>
+        <p>*doesn't include heroes wounds/threat and victory pool</p>
       </div>
     </div>
   </div>
@@ -62,6 +64,10 @@ export default {
 
     gameStarted() {
       return this.$store.state.status.gameStarted;
+    },
+
+    score() {
+      return this.$store.getters.score;
     },
   },
   methods: {
@@ -166,7 +172,6 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  font-weight: bold;
   font-size: 3rem;
   height: 7rem;
   width: 7rem;
@@ -200,5 +205,11 @@ export default {
 .btn-small {
   font-size: 1.2rem;
   padding: 0.8rem;
+}
+
+.score {
+  font-size: 1.3rem;
+  margin-bottom: 0;
+  text-transform: uppercase;
 }
 </style>
