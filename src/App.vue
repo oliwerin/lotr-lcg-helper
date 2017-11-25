@@ -12,6 +12,7 @@
         :key="player.number"
         :nameSetter="setPlayerName"
         :threatLevelSetter="setPlayerThreatLevel"
+        :markAsActive="markAsActive"
         :isActive="player.number === activePlayer"
         :player="player"
       />
@@ -106,6 +107,12 @@ export default {
       this.$store.commit('setPlayerName', {
         playerNumber,
         name,
+      });
+    },
+
+    markAsActive(playerNumber) {
+      this.$store.commit('markPlayerAsActive', {
+        playerNumber,
       });
     },
   },

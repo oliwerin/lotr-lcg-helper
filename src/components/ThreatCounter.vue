@@ -4,6 +4,7 @@
       :nameSetter="nameSetter" 
       :name="player.name"
       :number="player.number"
+      :markAsActive="markAsActive"
       :isActive="isActive"/>
     <div class="flex-row">
       <button @click="threatLevelSetter(player.number, -3)">-3</button>
@@ -41,6 +42,10 @@ export default {
     },
     isActive: {
       type: Boolean,
+      required: true,
+    },
+    markAsActive: {
+      type: Function,
       required: true,
     },
   },

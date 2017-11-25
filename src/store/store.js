@@ -45,7 +45,7 @@ export const store = new Vuex.Store({
     prevTurn: state => state.status = Object.assign({}, state.status, {
       turn: state.status.turn - 1 > 0 ? state.status.turn - 1 : state.status.turn,
       activePlayer: state.status.activePlayer === 1 ?
-        4 : state.status.activePlayer - 1,
+        state.players.length : state.status.activePlayer - 1,
     }),
 
     setAllThreatLevels: (state, payload) => {
@@ -82,5 +82,7 @@ export const store = new Vuex.Store({
 
     toggleIncreaseThreat: state => 
       state.status.toggleIncreaseThreat = !state.status.toggleIncreaseThreat,
+
+    markPlayerAsActive: (state, payload) => state.status.activePlayer = payload.playerNumber,
   },
 });

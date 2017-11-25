@@ -1,20 +1,6 @@
 @import "variables";
 @import "mixins";
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
-  margin: auto;
-  padding: 2rem;
-
-  @include respond-to-large() {
-    max-width: 40%;
-  }
-}
-
 html {
   font-size: 62.5%;
 }
@@ -73,7 +59,7 @@ h1 {
 
 h2 {
   font-size: 1.8rem;
-  margin: 0 0 1rem;
+  margin: 0;
 }
 
 input[type="text"] {

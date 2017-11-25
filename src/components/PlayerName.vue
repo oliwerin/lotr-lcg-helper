@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="player-name-wrapper">
     <h2 @click="showInput" v-show="!isInputVisible">
       {{ name }}
       <span v-show="isActive">(active)</span>
     </h2>
     <input type="text" v-show="isInputVisible" ref="input" maxlength="20">
+    <button v-show="!isActive && !isInputVisible" class="btn-small"
+            @click="markAsActive(number)">mark as active</button>
   </div>
 </template>
 
@@ -26,6 +28,10 @@ export default {
     },
     isActive: {
       type: Boolean,
+      required: true,
+    },
+    markAsActive: {
+      type: Function,
       required: true,
     },
   },
@@ -67,4 +73,7 @@ export default {
 </script>
 
 <style lang="scss">
+.player-name-wrapper {
+  margin-bottom: 1.5rem;
+}
 </style>
