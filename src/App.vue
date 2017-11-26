@@ -3,11 +3,11 @@
     <h1>Lord of the Rings LCG Helper</h1>
     <ul v-if="!gameStarted">
       <li v-for="n in 4" :key="n">
-        <button @click="startGame(n)">{{n}} player</button>
+        <button @click.prevent="startGame(n)">{{n}} player</button>
       </li>
     </ul>
     <div v-if="gameStarted">
-      <button class="btn-small" @click="backToSetPlayers">set players number</button>
+      <button class="btn-small" @click.prevent="backToSetPlayers">set players number</button>
       <ThreatCounter v-for="player in players" 
         :key="player.number"
         :nameSetter="setPlayerName"
@@ -17,17 +17,17 @@
         :player="player"
       />
       <div class="section flex-row">
-        <button @click="prevTurn">-1</button>
+        <button @click.prevent="prevTurn">-1</button>
         <div class="circle circle-small">
           <p class="circle-value">{{ turn }}</p>
           <p class="circle-label">TURN</p>
         </div>
-        <button @click="nextTurn">+1</button>
+        <button @click.prevent="nextTurn">+1</button>
       </div>
       <div class="section flex-column">
-        <button @click="advanceTurn">next turn</button>
+        <button @click.prevent="advanceTurn">next turn</button>
         <label><input v-model="increaseThreat" type="checkbox">increase threat</label>
-        <button class="btn-small" @click="resetGame">reset game</button>
+        <button class="btn-small" @click.prevent="resetGame">reset game</button>
         <p class="score">Score*: <b>{{ score }}</b></p>
         <p>*doesn't include heroes wounds/threat and victory pool</p>
       </div>

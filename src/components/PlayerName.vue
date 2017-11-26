@@ -1,12 +1,13 @@
 <template>
   <div class="player-name-wrapper">
-    <h2 @click="showInput" v-show="!isInputVisible">
+    <h2 @click.prevent="showInput" v-show="!isInputVisible">
       {{ name }}
       <span v-show="isActive">(active)</span>
     </h2>
-    <input type="text" v-show="isInputVisible" ref="input" maxlength="20">
+    <input v-show="isInputVisible" type="text" ref="input" maxlength="20"
+           placeholder="Type player name">
     <button v-show="!isActive && !isInputVisible" class="btn-small"
-            @click="markAsActive(number)">mark as active</button>
+            @click.prevent="markAsActive(number)">mark as active</button>
   </div>
 </template>
 

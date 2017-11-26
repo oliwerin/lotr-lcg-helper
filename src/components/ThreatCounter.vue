@@ -7,14 +7,14 @@
       :markAsActive="markAsActive"
       :isActive="isActive"/>
     <div class="flex-row">
-      <button @click="threatLevelSetter(player.number, -3)">-3</button>
-      <button @click="threatLevelSetter(player.number, -1)">-1</button>
+      <button @click.prevent="threatLevelSetter(player.number, -3)">-3</button>
+      <button @click.prevent="threatLevelSetter(player.number, -1)">-1</button>
       <div class="circle">
         <p class="circle-value">{{ player.threat }}</p>
         <p class="circle-label">THREAT</p>
       </div>
-      <button @click="threatLevelSetter(player.number, 1)">+1</button>
-      <button @click="threatLevelSetter(player.number, 3)">+3</button>
+      <button @click.prevent="threatLevelSetter(player.number, 1)">+1</button>
+      <button @click.prevent="threatLevelSetter(player.number, 3)">+3</button>
       </div>
   </div>
 </template>
