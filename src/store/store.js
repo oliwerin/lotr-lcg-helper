@@ -87,7 +87,7 @@ export const store = new Vuex.Store({
     },
 
     toggleIncreaseThreat: state => 
-      state.status.toggleIncreaseThreat = !state.status.toggleIncreaseThreat,
+      state.status.increaseThreat = !state.status.increaseThreat,
 
     markPlayerAsActive: (state, payload) => state.status.activePlayer = payload.playerNumber,
   },

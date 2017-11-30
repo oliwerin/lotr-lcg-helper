@@ -26,7 +26,9 @@
       </div>
       <div class="section flex-column">
         <button @click.prevent="advanceTurn">next turn</button>
-        <label><input v-model="increaseThreat" type="checkbox">increase threat</label>
+        <label>
+          <input v-model="increaseThreat" type="checkbox">increase threat
+        </label>
         <button class="btn-small" @click.prevent="resetGame">reset game</button>
         <p class="score">Score*: <b>{{ score }}</b></p>
         <p>*doesn't include heroes wounds/threat and victory pool</p>
@@ -58,8 +60,13 @@ export default {
       return this.$store.state.status.activePlayer;
     },
 
-    increaseThreat() {
-      return this.$store.state.status.increaseThreat;
+    increaseThreat: {
+      get() {
+        return this.$store.state.status.increaseThreat;
+      },
+      set() {
+        this.$store.commit('toggleIncreaseThreat');
+      },
     },
 
     gameStarted() {
@@ -100,6 +107,10 @@ export default {
 
     prevTurn() {
       this.$store.commit('prevTurn');
+    },
+
+    toggleThreatIncrease() {
+      this.$store.commit('toggleIncreaseThreat');
     },
 
     setPlayerThreatLevel(playerNumber, modifier) {
