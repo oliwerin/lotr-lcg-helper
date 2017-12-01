@@ -7,7 +7,7 @@
       </li>
     </ul>
     <div v-if="gameStarted">
-      <button class="btn-small" @click.prevent="backToSetPlayers">set the number of players</button>
+      <button class="btn-small" @click.prevent="backToSetPlayers">number of players</button>
       <ThreatCounter v-for="player in players" 
         :key="player.number"
         :nameSetter="setPlayerName"
