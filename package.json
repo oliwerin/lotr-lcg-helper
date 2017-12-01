@@ -1,6 +1,6 @@
 {
   "name": "lotr-lcg",
-  "description": "Toolbox for Lord of the Rings LCG.",
+  "description": "Threat Tracker for The Lord of the Rings: The Card Game.",
   "version": "1.0.0",
   "author": "Oliwer Iwanicki <oliwer@outlook.com>",
   "private": true,
