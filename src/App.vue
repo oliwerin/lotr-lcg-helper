@@ -1,13 +1,13 @@
 <template>
   <div class='app'>
-    <h1>Lord of the Rings LCG Helper</h1>
+    <h1>Threat Tracker for the Lord of the Rings: The Card Game</h1>
     <ul v-if="!gameStarted">
       <li v-for="n in 4" :key="n">
-        <button @click.prevent="startGame(n)">{{n}} player</button>
+        <button @click.prevent="startGame(n)">{{n}} player{{n > 1 ? "s" : ""}}</button>
       </li>
     </ul>
     <div v-if="gameStarted">
-      <button class="btn-small" @click.prevent="backToSetPlayers">set players number</button>
+      <button class="btn-small" @click.prevent="backToSetPlayers">set the number of players</button>
       <ThreatCounter v-for="player in players" 
         :key="player.number"
         :nameSetter="setPlayerName"
@@ -31,7 +31,7 @@
         </label>
         <button class="btn-small" @click.prevent="resetGame">reset game</button>
         <p class="score">Score*: <b>{{ score }}</b></p>
-        <p>*doesn't include heroes wounds/threat and victory pool</p>
+        <p>*it's not the final score</p>
       </div>
     </div>
   </div>
