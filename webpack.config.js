@@ -1,6 +1,7 @@
 
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
@@ -43,8 +44,14 @@ module.exports = {
           name: '[name].[ext]?[hash]'
         },
       }
-    ]
+    ],
   },
+  plugins: [
+    //...
+    new StylelintPlugin({
+      files: ['**/*.vue', '**/*.scss'],
+    }),
+  ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'

@@ -53,4 +53,5 @@ export default {
 </script>
 
 <style lang="scss">
+  /* styles */
 </style>

@@ -144,8 +144,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 60px;
-  margin: auto;
+  margin: 60px auto 0;
   padding: 2rem;
 
   @include respond-to-large() {
