@@ -1,22 +1,32 @@
 <template>
-  <div class='app'>
-    <h1>Threat Tracker for the Lord of the Rings: The Card Game</h1>
+  <div class="app">
+    <div class="heading-wrapper flex-centered-content"> 
+      <h1>Threat Tracker</h1>
+      <img class="heading-bg" src="/assets/svg/button01.svg" alt=""/>
+      <button
+        class="btn btn-settings"
+        @click.prevent="isSettingsOverlayVisible = !isSettingsOverlayVisible"></button>
+    </div>
     <ul v-if="!gameStarted">
       <li v-for="n in 4" :key="n">
-        <button @click.prevent="startGame(n)">{{n}} player{{n > 1 ? "s" : ""}}</button>
+        <button 
+          class="btn btn-number-of-players"
+          @click.prevent="startGame(n)">{{n}} Player{{n > 1 ? "s" : ""}}</button>
       </li>
     </ul>
-    <div v-if="gameStarted">
-      <button class="btn-small" @click.prevent="backToSetPlayers">number of players</button>
-      <ThreatCounter v-for="player in players" 
-        :key="player.number"
-        :nameSetter="setPlayerName"
-        :threatLevelSetter="setPlayerThreatLevel"
-        :markAsActive="markAsActive"
-        :isActive="player.number === activePlayer"
-        :player="player"
-      />
-      <div class="section flex-row">
+    <div v-if="gameStarted">      
+      <div class="threat-counters-wrapper">
+        <ThreatCounter v-for="player in players" 
+          :key="player.number"
+          :nameSetter="setPlayerName"
+          :threatLevelSetter="setPlayerThreatLevel"
+          :makeFirst="makeFirst"
+          :isFirst="player.number === firstPlayer"
+          :isLast="player.number === lastPlayer"
+          :player="player"
+        />
+      </div>
+      <div>
         <button @click.prevent="prevTurn">-1</button>
         <div class="circle circle-small">
           <p class="circle-value">{{ turn }}</p>
@@ -24,21 +34,26 @@
         </div>
         <button @click.prevent="nextTurn">+1</button>
       </div>
-      <div class="section flex-column">
+      <div>
         <button @click.prevent="advanceTurn">next turn</button>
         <label>
           <input v-model="increaseThreat" type="checkbox">increase threat
         </label>
-        <button class="btn-small" @click.prevent="resetGame">reset game</button>
+        <button @click.prevent="resetGame">reset game</button>
         <p class="score">Score*: <b>{{ score }}</b></p>
         <p>*it's not the final score</p>
+        <button @click.prevent="backToSetPlayers">number of players</button>
       </div>
     </div>
+    <transition name="fade">
+      <SettingsOverlay v-show="isSettingsOverlayVisible"/>
+    </transition>
   </div>
 </template>
 
 <script>
 import ThreatCounter from './components/ThreatCounter.vue';
+import SettingsOverlay from './components/SettingsOverlay.vue';
 
 const INITIAL_THREAT = 25;
 
@@ -46,6 +61,12 @@ export default {
   name: 'app',
   components: {
     ThreatCounter,
+    SettingsOverlay,
+  },
+  data() {
+    return {
+      isSettingsOverlayVisible: false,
+    };
   },
   computed: {
     turn() {
@@ -56,8 +77,12 @@ export default {
       return this.$store.state.players;
     },
 
-    activePlayer() {
+    firstPlayer() {
       return this.$store.state.status.activePlayer;
+    },
+
+    lastPlayer() {
+      return this.$store.getters.lastPlayer;
     },
 
     increaseThreat: {
@@ -127,8 +152,8 @@ export default {
       });
     },
 
-    markAsActive(playerNumber) {
-      this.$store.commit('markPlayerAsActive', {
+    makeFirst(playerNumber) {
+      this.$store.commit('makePlayerFirst', {
         playerNumber,
       });
     },
@@ -140,86 +165,73 @@ export default {
 @import "sass/main";
 
 .app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Ringbearer Medium', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin: 60px auto 0;
-  padding: 2rem;
 
   @include respond-to-large() {
     max-width: 40%;
   }
 }
 
-.section {
-  padding: 2rem 0;
-  border-bottom: 1px solid $secondary-color;
+.heading-wrapper {
+  @include shadow;
 
-  &:last-child {
-    border: none;
+  position: relative;
+  margin: 25px auto;
+  height: 40px;
+  width: 230px;
+
+  &::before,
+  .btn-settings {
+    @include shadow;
+
+    content: "";
+    display: block;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    background-size: 100%;
+    border-radius: 100%;
+  }
+
+  &::before {
+    background-image: url(/assets/svg/button04.svg);
+    left: -25px;
+  }
+
+  .btn-settings {
+    background-image: url(/assets/svg/button03.svg);
+    right: -25px;
   }
 }
 
-.flex-row {
+.heading-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+.threat-counters-wrapper {
   display: flex;
-  margin: auto;
-  align-items: center;
-  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.btn-number-of-players {
+  @include btn-default-bg(190px);
 }
 
-.circle {
-  margin: auto;
-  border-radius: 100%;
-  border: 1px solid $secondary-color;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  font-size: 3rem;
-  height: 7rem;
-  width: 7rem;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease-out;
 }
 
-.circle-value,
-.circle-label {
-  margin: 0;
-  padding: 0;
-}
-
-.circle-value {
-  line-height: 1;
-}
-
-.circle-label {
-  font-size: 1.2rem;
-  text-transform: uppercase;
-}
-
-.circle-small {
-  font-size: 2rem;
-  width: 5rem;
-  height: 5rem;
-
-  .circle-label {
-    font-size: 1rem;
-  }
-}
-
-.btn-small {
-  font-size: 1.2rem;
-  padding: 0.8rem;
-}
-
-.score {
-  font-size: 1.3rem;
-  margin-bottom: 0;
-  text-transform: uppercase;
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

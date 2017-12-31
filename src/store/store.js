@@ -20,6 +20,8 @@ export const store = new Vuex.Store({
       state.players.reduce(
         (acc, player) => acc + player.threat, 0
       ) + (state.status.turn * 10) : 0,
+    lastPlayer: state => state.status.activePlayer - 1 > 0 ? 
+      state.status.activePlayer - 1 : state.players.length,
   },
   mutations: {
     setInitialGameState: state => state.status = Object.assign({}, state.status, {
@@ -89,6 +91,6 @@ export const store = new Vuex.Store({
     toggleIncreaseThreat: state => 
       state.status.increaseThreat = !state.status.increaseThreat,
 
-    markPlayerAsActive: (state, payload) => state.status.activePlayer = payload.playerNumber,
+    makePlayerFirst: (state, payload) => state.status.activePlayer = payload.playerNumber,
   },
 });

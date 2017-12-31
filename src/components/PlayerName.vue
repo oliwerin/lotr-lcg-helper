@@ -1,13 +1,12 @@
 <template>
-  <div class="player-name-wrapper">
-    <h2 @click.prevent="showInput" v-show="!isInputVisible">
-      {{ name }}
-      <span v-show="isActive">(active)</span>
-    </h2>
+  <div>
+    <h2 class="flex-centered-content" @click.prevent="showInput" v-show="!isInputVisible">{{ name }}</h2>
     <input v-show="isInputVisible" type="text" ref="input" maxlength="20"
-           placeholder="Type player name">
-    <button v-show="!isActive && !isInputVisible" class="btn-small"
-            @click.prevent="markAsActive(number)">mark as active</button>
+           placeholder="Type new name">
+    <div class="player-status-wrapper flex-centered-content">
+      <div class="player-status player-status-first" v-show="isFirst"></div>
+      <div class="player-status player-status-last" v-show="isLast && !isFirst"></div>
+    </div>
   </div>
 </template>
 
@@ -27,12 +26,12 @@ export default {
       type: Function,
       required: true,
     },
-    isActive: {
+    isFirst: {
       type: Boolean,
       required: true,
     },
-    markAsActive: {
-      type: Function,
+    isLast: {
+      type: Boolean,
       required: true,
     },
   },
@@ -74,7 +73,39 @@ export default {
 </script>
 
 <style lang="scss">
-.player-name-wrapper {
-  margin-bottom: 1.5rem;
+@import "../sass/mixins";
+
+h2 {
+  @include shadow;
+  @include player-name-bg(145px);
+
+  margin: auto;
+  border-radius: 25px 25px 0 0;
+}
+
+.player-status-wrapper {
+  @include shadow;
+
+  background-image: url(/assets/svg/icon02.svg);
+  background-size: 100%;
+  width: 24px;
+  height: 24px;
+  margin: -7px auto -10px;
+  position: relative;
+  border-radius: 100%;
+}
+
+.player-status {
+  width: 14px;
+  height: 14px;
+  background-size: 100%;
+}
+
+.player-status-first {
+  background-image: url(/assets/svg/green.svg);
+}
+
+.player-status-last {
+  background-image: url(/assets/svg/red.svg);
 }
 </style>

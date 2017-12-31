@@ -1,3 +1,35 @@
 @mixin respond-to-large {
   @media (min-width: $breakpoint) { @content; }
 }
+
+@mixin shadow {
+  box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.75);
+}
+
+@mixin scroll-bg($width) {
+  width: $width;
+  height: floor($width / 2.45);
+  background-image: url(/assets/svg/scroll.svg);
+  background-size: 100%;
+}
+
+@mixin player-name-bg($width) {
+  width: $width;
+  height: floor($width / 4.67);
+  background-image: url(/assets/svg/name.svg);
+  background-size: 100%;
+}
+
+@mixin btn-default-bg($width) {
+  width: $width;
+  height: floor($width / 3.72);
+  background-image: url(/assets/svg/button01.svg);
+  background-size: 100%;
+}
+
+@mixin heading-bg($width) {
+  width: $width;
+  height: floor($width / 3.72);
+  background-image: url(/assets/svg/button02.svg);
+  background-size: 100%;
+}
