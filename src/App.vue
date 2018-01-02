@@ -21,21 +21,20 @@
           :nameSetter="setPlayerName"
           :threatLevelSetter="setPlayerThreatLevel"
           :makeFirst="makeFirst"
-          :isFirst="player.number === firstPlayer"
-          :isLast="player.number === lastPlayer"
+          :status="playerStatus(player.number)"
           :player="player"
         />
       </div>
-      <div>
-        <button @click.prevent="prevTurn">-1</button>
-        <div class="circle circle-small">
-          <p class="circle-value">{{ turn }}</p>
-          <p class="circle-label">TURN</p>
-        </div>
-        <button @click.prevent="nextTurn">+1</button>
+      <div class="turn-controls flex-row">
+        <button 
+          class="btn btn-prev-turn" 
+          @click.prevent="prevTurn"></button>
+        <LabelAndValue
+          label="Next Turn"
+          :value="turn"
+          :labelClickHandler="advanceTurn"/>
       </div>
-      <div>
-        <button @click.prevent="advanceTurn">next turn</button>
+      <div v-show="false">
         <label>
           <input v-model="increaseThreat" type="checkbox">increase threat
         </label>
@@ -54,14 +53,19 @@
 <script>
 import ThreatCounter from './components/ThreatCounter.vue';
 import SettingsOverlay from './components/SettingsOverlay.vue';
+import LabelAndValue from './components/LabelAndValue.vue';
 
-const INITIAL_THREAT = 25;
+import {
+  PLAYER_STATUS,
+  INITIAL_THREAT,
+} from './constants/constants';
 
 export default {
   name: 'app',
   components: {
     ThreatCounter,
     SettingsOverlay,
+    LabelAndValue,
   },
   data() {
     return {
@@ -126,10 +130,6 @@ export default {
       this.$store.commit('finishGame');
     },
 
-    nextTurn() {
-      this.$store.commit('nextTurn');
-    },
-
     prevTurn() {
       this.$store.commit('prevTurn');
     },
@@ -157,6 +157,18 @@ export default {
         playerNumber,
       });
     },
+
+    playerStatus(playerNumber) {
+      if (playerNumber === this.$store.state.status.activePlayer) {
+        return PLAYER_STATUS.FIRST;
+      } else if ((this.$store.state.status.activePlayer === 1 &&
+        playerNumber === this.$store.state.players.length) ||
+        playerNumber === this.$store.state.status.activePlayer - 1) {
+        return PLAYER_STATUS.LAST;
+      }
+
+      return PLAYER_STATUS.DEFAULT;
+    },
   },
 };
 </script>
@@ -169,6 +181,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  margin: auto;
 
   @include respond-to-large() {
     max-width: 40%;
@@ -223,6 +236,24 @@ export default {
 
 .btn-number-of-players {
   @include btn-default-bg(190px);
+}
+
+.turn-controls {
+  position: relative;
+  width: 165px;
+  height: 50px;
+}
+
+.btn-prev-turn {
+  @include shadow;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background-image: url(/assets/svg/button02.svg);
+  background-size: 100%;
+  position: absolute;
+  left: -60px;
 }
 
 .fade-enter-active,

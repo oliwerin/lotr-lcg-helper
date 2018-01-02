@@ -4,14 +4,13 @@
       :nameSetter="nameSetter" 
       :name="player.name"
       :number="player.number"
-      :isFirst="isFirst"
-      :isLast="isLast"/>
+      :status="status"/>
     <ScrollControls
       :leftBtnClickHandler="decreaseThreatLevel"
       :rightBtnClickHandler="increaseThreatLevel"
       :value="player.threat"/>
     <button
-      v-show="!isFirst" 
+      v-show="isNotFirst" 
       class="btn btn-make-first"
       @click.prevent="makeFirst(player.number)">Make First</button>
   </div>
@@ -20,6 +19,7 @@
 <script>
 import PlayerName from './PlayerName.vue';
 import ScrollControls from './ScrollControls.vue';
+import { PLAYER_STATUS } from '../constants/constants';
 
 export default {
   name: 'ThreatCounter',
@@ -40,12 +40,8 @@ export default {
       type: Object,
       required: true,
     },
-    isFirst: {
-      type: Boolean,
-      required: true,
-    },
-    isLast: {
-      type: Boolean,
+    status: {
+      type: String,
       required: true,
     },
     makeFirst: {
@@ -59,6 +55,11 @@ export default {
     },
     decreaseThreatLevel() {
       this.$props.threatLevelSetter(this.$props.player.number, -1);
+    },
+  },
+  computed: {
+    isNotFirst() {
+      return this.status !== PLAYER_STATUS.FIRST;
     },
   },
 };
