@@ -34,6 +34,7 @@
           :value="turn"
           :labelClickHandler="advanceTurn"/>
       </div>
+      <InfoBar/>
       <div v-show="false">
         <label>
           <input v-model="increaseThreat" type="checkbox">increase threat
@@ -54,6 +55,7 @@
 import ThreatCounter from './components/ThreatCounter.vue';
 import SettingsOverlay from './components/SettingsOverlay.vue';
 import LabelAndValue from './components/LabelAndValue.vue';
+import InfoBar from './components/InfoBar.vue';
 
 import {
   PLAYER_STATUS,
@@ -66,6 +68,7 @@ export default {
     ThreatCounter,
     SettingsOverlay,
     LabelAndValue,
+    InfoBar,
   },
   data() {
     return {

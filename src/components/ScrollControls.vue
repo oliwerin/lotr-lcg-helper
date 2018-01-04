@@ -24,7 +24,7 @@ export default {
       required: true,
     },
     value: {
-      type: Number,
+      type: [Number, String],
       required: true,
     },
   },
@@ -37,6 +37,7 @@ export default {
 .scroll-controls {
   @include scroll-bg(145px);
 
+  justify-content: space-evenly;
   background-size: 100%;
   margin-bottom: 7px;
 }
