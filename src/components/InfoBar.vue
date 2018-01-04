@@ -17,8 +17,8 @@
         </p>
       </div>
       <ScrollControls
-        :leftBtnClickHandler="() => {}"
-        :rightBtnClickHandler="() => {}"
+        :leftBtnClickHandler="() => btnClickHandler(-1)"
+        :rightBtnClickHandler="() => btnClickHandler(1)"
         value="Group Threat"/>
     </div>
   </div>
@@ -34,6 +34,12 @@ export default {
     PlayerStatus,
     ScrollControls,
   },
+  props: {
+    btnClickHandler: {
+      type: Function,
+      required: true,
+    },
+  },
 };
 </script>
 
@@ -43,7 +49,7 @@ export default {
 
 .info-bar {
   position: fixed;
-  height: 50px;
+  height: 60px;
   width: 100%;
   bottom: 0;
   left: 0;
@@ -60,11 +66,12 @@ export default {
   }
 
   .scroll-controls {
-    margin-top: -15px;
+    margin-top: -30px;
   }
 
   .scroll-controls-value {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    width: 40px;
   }
 }
 

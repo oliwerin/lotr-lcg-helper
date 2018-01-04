@@ -57,9 +57,9 @@ export const store = new Vuex.Store({
     }),
 
     setAllThreatLevels: (state, payload) => {
-      state.players = state.status.increaseThreat ? 
+      state.players = payload.forcedIncrese || state.status.increaseThreat ? 
         state.players.map(player => Object.assign({}, player, {
-          threat: payload && payload.threat ? payload.threat : player.threat + 1,
+          threat: payload && payload.threat ? payload.threat : player.threat + payload.modifier,
         })) : state.players;
     },
 

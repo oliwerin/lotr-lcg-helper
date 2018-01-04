@@ -46,6 +46,7 @@ export default {
   font-size: 3rem;
   font-weight: bold;
   width: 50px;
+  padding: 0;
   background: transparent;
 }
 

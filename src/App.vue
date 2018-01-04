@@ -34,7 +34,7 @@
           :value="turn"
           :labelClickHandler="advanceTurn"/>
       </div>
-      <InfoBar/>
+      <InfoBar :btnClickHandler="setPlayersThreatLevel"/>
       <div v-show="false">
         <label>
           <input v-model="increaseThreat" type="checkbox">increase threat
@@ -119,12 +119,15 @@ export default {
 
     advanceTurn() {
       this.$store.commit('nextTurn');
-      this.$store.commit('setAllThreatLevels');
+      this.$store.commit('setAllThreatLevels', {
+        modifier: 1,
+      });
     },
 
     resetGame() {
       this.$store.commit('setInitialGameState');
       this.$store.commit('setAllThreatLevels', {
+        forcedIncrease: true,
         threat: INITIAL_THREAT,
       });
     },
@@ -139,6 +142,13 @@ export default {
 
     toggleThreatIncrease() {
       this.$store.commit('toggleIncreaseThreat');
+    },
+
+    setPlayersThreatLevel(modifier) {
+      this.$store.commit('setAllThreatLevels', {
+        fordcedIncrease: true,
+        modifier,
+      });
     },
 
     setPlayerThreatLevel(playerNumber, modifier) {
