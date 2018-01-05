@@ -35,18 +35,15 @@
           :labelClickHandler="advanceTurn"/>
       </div>
       <InfoBar :btnClickHandler="setPlayersThreatLevel"/>
-      <div v-show="false">
-        <label>
-          <input v-model="increaseThreat" type="checkbox">increase threat
-        </label>
-        <button @click.prevent="resetGame">reset game</button>
-        <p class="score">Score*: <b>{{ score }}</b></p>
-        <p>*it's not the final score</p>
-        <button @click.prevent="backToSetPlayers">number of players</button>
-      </div>
     </div>
     <transition name="fade">
-      <SettingsOverlay v-show="isSettingsOverlayVisible"/>
+      <SettingsOverlay 
+        v-show="isSettingsOverlayVisible"
+        :playersNumber="players.length"
+        :backToSetPlayers="backToSetPlayers"
+        :increaseThreat="increaseThreat"
+        :toggleThreatIncrease="toggleThreatIncrease"
+        :resetGame="resetGame"/>
     </transition>
   </div>
 </template>
@@ -92,13 +89,8 @@ export default {
       return this.$store.getters.lastPlayer;
     },
 
-    increaseThreat: {
-      get() {
-        return this.$store.state.status.increaseThreat;
-      },
-      set() {
-        this.$store.commit('toggleIncreaseThreat');
-      },
+    increaseThreat() {
+      return this.$store.state.status.increaseThreat;
     },
 
     gameStarted() {
@@ -130,14 +122,20 @@ export default {
         forcedIncrease: true,
         threat: INITIAL_THREAT,
       });
+      this.isSettingsOverlayVisible = false;
     },
 
     backToSetPlayers() {
       this.$store.commit('finishGame');
+      this.isSettingsOverlayVisible = false;
     },
 
     prevTurn() {
       this.$store.commit('prevTurn');
+      this.$store.commit('setAllThreatLevels', {
+        fordcedIncrease: true,
+        modifier: -1,
+      });
     },
 
     toggleThreatIncrease() {
