@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { INITIAL_THREAT } from '../constants/constants';
 
 Vue.use(Vuex);
-
-const INITIAL_THREAT = 25;
 
 export const store = new Vuex.Store({
   state: {

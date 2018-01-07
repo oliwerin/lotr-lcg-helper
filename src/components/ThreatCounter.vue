@@ -1,5 +1,5 @@
 <template>
-  <div class="threat-counter">
+  <div :class=classes>
     <PlayerName
       :nameSetter="nameSetter" 
       :name="player.name"
@@ -48,6 +48,10 @@ export default {
       type: Function,
       required: true,
     },
+    onePlayerGame: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     increaseThreatLevel() {
@@ -58,6 +62,12 @@ export default {
     },
   },
   computed: {
+    classes() {
+      return {
+        'threat-counter': true,
+        'threat-counter-one-player': this.onePlayerGame,
+      };
+    },
     isNotFirst() {
       return this.status !== PLAYER_STATUS.FIRST;
     },
@@ -75,6 +85,10 @@ export default {
   &:first-child {
     margin: auto;
   }
+}
+
+.threat-counter-one-player {
+  min-height: auto;
 }
 
 .btn-make-first {

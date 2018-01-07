@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="heading-wrapper flex-centered-content"> 
-      <h1>Threat Tracker</h1>
+      <h1>{{title}}</h1>
       <img class="heading-bg" src="/assets/svg/button01.svg" alt=""/>
       <button
         class="btn btn-settings"
@@ -23,6 +23,7 @@
           :makeFirst="makeFirst"
           :status="playerStatus(player.number)"
           :player="player"
+          :onePlayerGame="players.length === 1"
         />
       </div>
       <div class="turn-controls flex-row">
@@ -34,7 +35,9 @@
           :value="turn"
           :labelClickHandler="advanceTurn"/>
       </div>
-      <InfoBar :btnClickHandler="setPlayersThreatLevel"/>
+      <InfoBar
+        v-show="players.length > 1"
+        :btnClickHandler="setPlayersThreatLevel"/>
     </div>
     <transition name="fade">
       <SettingsOverlay 
@@ -43,7 +46,8 @@
         :backToSetPlayers="backToSetPlayers"
         :increaseThreat="increaseThreat"
         :toggleThreatIncrease="toggleThreatIncrease"
-        :resetGame="resetGame"/>
+        :resetGame="resetGame"
+        :gameStarted="gameStarted"/>
     </transition>
   </div>
 </template>
@@ -99,6 +103,15 @@ export default {
 
     score() {
       return this.$store.getters.score;
+    },
+    title() {
+      if (this.isSettingsOverlayVisible) {
+        return 'Settings and Score';
+      } else if (this.gameStarted) {
+        return 'Threat Tracker';
+      }
+
+      return 'Number of Players';
     },
   },
   methods: {

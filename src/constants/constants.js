@@ -4,4 +4,4 @@ export const PLAYER_STATUS = {
   DEFAULT: 'DEFAULT',
 };
 
-export const INITIAL_THREAT = 25;
+export const INITIAL_THREAT = 30;

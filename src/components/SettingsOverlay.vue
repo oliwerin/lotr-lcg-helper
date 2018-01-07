@@ -11,7 +11,7 @@
         <button class="btn-settings"
           @click.prevent="toggleThreatIncrease">{{increaseThreat ? 'on' : 'off'}}</button>
       </div>
-      <div class="settings-wrapper settings-wrapper-btn-only">
+      <div v-show="gameStarted" class="settings-wrapper settings-wrapper-btn-only">
         <button class="btn-settings btn-settings-small-font"
           @click.prevent="resetGame">Reset Game State</button>
       </div>
@@ -44,6 +44,10 @@ export default {
       type: Function,
       required: true,
     },
+    gameStarted: {
+      type: Boolean,
+      required: true,
+    },
   },
 };
 </script>
@@ -65,6 +69,11 @@ $overlay-margin-top: 90px;
 
 .settings-overlay-content {
   padding: 20px;
+
+  @include respond-to-large() {
+    max-width: 40%;
+    margin: auto;
+  }
 }
 
 .settings-wrapper {

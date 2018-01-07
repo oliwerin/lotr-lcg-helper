@@ -1,25 +1,27 @@
 <template>
   <div class="info-bar">
     <img src="/assets/svg/button01.svg" alt=""/>
-    <div class="info-bar-content flex-row">
-      <div class="status-wrapper flex-row">
-        <PlayerStatus status="FIRST"/>
-        <p class="status-label">
-          <span>First</span>
-          <span>Player</span>
-        </p>
+    <div class="info-bar-wrapper">
+      <div class="info-bar-content flex-row">  
+        <div class="status-wrapper flex-row">
+          <PlayerStatus status="FIRST"/>
+          <p class="status-label">
+            <span>First</span>
+            <span>Player</span>
+          </p>
+        </div>
+        <div class="status-wrapper flex-row">
+          <PlayerStatus status="LAST"/>
+          <p class="status-label">
+            <span>Last</span>
+            <span>Player</span>
+          </p>
+        </div>
+        <ScrollControls
+          :leftBtnClickHandler="() => btnClickHandler(-1)"
+          :rightBtnClickHandler="() => btnClickHandler(1)"
+          value="Group Threat"/>
       </div>
-      <div class="status-wrapper flex-row">
-        <PlayerStatus status="LAST"/>
-        <p class="status-label">
-          <span>Last</span>
-          <span>Player</span>
-        </p>
-      </div>
-      <ScrollControls
-        :leftBtnClickHandler="() => btnClickHandler(-1)"
-        :rightBtnClickHandler="() => btnClickHandler(1)"
-        value="Group Threat"/>
     </div>
   </div>
 </template>
@@ -75,10 +77,16 @@ export default {
   }
 }
 
-.info-bar-content {
+.info-bar-wrapper {
   background: $grey;
   height: 100%;
   width: 100%;
+}
+
+.info-bar-content {
+  @include respond-to-large() {
+    max-width: 40%;
+  }
 }
 
 .status-wrapper {
