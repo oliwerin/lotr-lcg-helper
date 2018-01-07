@@ -7,7 +7,7 @@
           @click.prevent="backToSetPlayers">{{playersNumber}}</button>
       </div>
       <div class="settings-wrapper flex-row">
-        <p>Automatic Thret Increase</p>
+        <p>Automatic Threat Increase</p>
         <button class="btn-settings"
           @click.prevent="toggleThreatIncrease">{{increaseThreat ? 'on' : 'off'}}</button>
       </div>
@@ -15,14 +15,42 @@
         <button class="btn-settings btn-settings-small-font"
           @click.prevent="resetGame">Reset Game State</button>
       </div>
+      <LabelAndValue label="Final Score" :value='score'/>
+      <div class="score-settings-wrapper flex-row">
+        <p>Threat Cost of Each Dead Hero</p>
+        <ScrollControls
+          :value="scoreModifiers.deadHeroesCost"
+          :leftBtnClickHandler="() => scoreModifierSetter('DeadHeroesCost', -1)"
+          :rightBtnClickHandler="() => scoreModifierSetter('DeadHeroesCost', 1)"/>
+      </div>
+      <div class="score-settings-wrapper flex-row">
+        <p>Damage Tokens on Remaining Heroes</p>
+        <ScrollControls
+          :value="scoreModifiers.damageTokens"
+          :leftBtnClickHandler="() => scoreModifierSetter('DamageTokens', -1)"
+          :rightBtnClickHandler="() => scoreModifierSetter('DamageTokens', 1)"/>
+      </div>
+      <div class="score-settings-wrapper flex-row">
+        <p>Victory Pool</p>
+        <ScrollControls
+          :value="scoreModifiers.victoryPool"
+          :leftBtnClickHandler="() => scoreModifierSetter('VictoryPool', -1)"
+          :rightBtnClickHandler="() => scoreModifierSetter('VictoryPool', 1)"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import LabelAndValue from './LabelAndValue.vue';
+import ScrollControls from './ScrollControls.vue';
+
 export default {
   name: 'SettingsOverlay',
-  components: {},
+  components: {
+    LabelAndValue,
+    ScrollControls,
+  },
   props: {
     playersNumber: {
       type: Number,
@@ -48,6 +76,18 @@ export default {
       type: Boolean,
       required: true,
     },
+    score: {
+      type: Number,
+      required: true,
+    },
+    scoreModifiers: {
+      type: Object,
+      required: true,
+    },
+    scoreModifierSetter: {
+      type: Function,
+      required: true,
+    },
   },
 };
 </script>
@@ -65,6 +105,7 @@ $overlay-margin-top: 90px;
   position: fixed;
   top: $overlay-margin-top;
   left: 0;
+  overflow: scroll;
 }
 
 .settings-overlay-content {
@@ -81,6 +122,22 @@ $overlay-margin-top: 90px;
 
   p {
     font-size: 1.3rem;
+    text-align: left;
+    max-width: 50%;
+  }
+}
+
+.score-settings-wrapper {
+  margin: 20px auto;
+
+  > p {
+    font-size: 1rem;
+    text-align: left;
+    max-width: 50%;
+  }
+
+  .scroll-controls {
+    margin: 0;
   }
 }
 

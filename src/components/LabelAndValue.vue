@@ -4,7 +4,7 @@
       v-if="labelClickHandler" 
       @click.prevent="labelClickHandler"
       class="btn label">{{label}}</button>
-    <p v-if="!labelClickHandler" class="label">{{label}}</p>
+    <p v-if="!labelClickHandler" class="label flex-centered-content">{{label}}</p>
     <p class="value flex-centered-content">{{value}}</p>
   </div>
 </template>

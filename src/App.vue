@@ -47,7 +47,10 @@
         :increaseThreat="increaseThreat"
         :toggleThreatIncrease="toggleThreatIncrease"
         :resetGame="resetGame"
-        :gameStarted="gameStarted"/>
+        :gameStarted="gameStarted"
+        :score="score"
+        :scoreModifiers="scoreModifiers"
+        :scoreModifierSetter="setScoreModifier"/>
     </transition>
   </div>
 </template>
@@ -61,6 +64,7 @@ import InfoBar from './components/InfoBar.vue';
 import {
   PLAYER_STATUS,
   INITIAL_THREAT,
+  TITLES,
 } from './constants/constants';
 
 export default {
@@ -104,14 +108,23 @@ export default {
     score() {
       return this.$store.getters.score;
     },
+
     title() {
       if (this.isSettingsOverlayVisible) {
-        return 'Settings and Score';
+        return TITLES.SETTINGS_AND_SCORE;
       } else if (this.gameStarted) {
-        return 'Threat Tracker';
+        return TITLES.THREAT_TRACKER;
       }
 
-      return 'Number of Players';
+      return TITLES.NUMBER_OF_PLAYERS;
+    },
+
+    scoreModifiers() {
+      return {
+        deadHeroesCost: this.$store.state.status.deadHeroesCost,
+        damageTokens: this.$store.state.status.damageTokens,
+        victoryPool: this.$store.state.status.victoryPool,
+      };
     },
   },
   methods: {
@@ -132,7 +145,7 @@ export default {
     resetGame() {
       this.$store.commit('setInitialGameState');
       this.$store.commit('setAllThreatLevels', {
-        forcedIncrease: true,
+        forcedIncrese: true,
         threat: INITIAL_THREAT,
       });
       this.isSettingsOverlayVisible = false;
@@ -179,6 +192,12 @@ export default {
     makeFirst(playerNumber) {
       this.$store.commit('makePlayerFirst', {
         playerNumber,
+      });
+    },
+
+    setScoreModifier(modifierKey, modifierValue) {
+      this.$store.commit(`set${modifierKey}`, {
+        modifier: modifierValue,
       });
     },
 

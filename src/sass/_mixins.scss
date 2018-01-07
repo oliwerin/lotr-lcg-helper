@@ -11,6 +11,7 @@
   height: floor($width / 2.45);
   background-image: url(/assets/svg/scroll.svg);
   background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 @mixin player-name-bg($width) {
@@ -18,6 +19,7 @@
   height: floor($width / 4.67);
   background-image: url(/assets/svg/name.svg);
   background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 @mixin btn-default-bg($width) {
@@ -25,6 +27,7 @@
   height: floor($width / 3.72);
   background-image: url(/assets/svg/button01.svg);
   background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 @mixin heading-bg($width) {
@@ -32,4 +35,5 @@
   height: floor($width / 3.72);
   background-image: url(/assets/svg/button02.svg);
   background-size: 100%;
+  background-repeat: no-repeat;
 }

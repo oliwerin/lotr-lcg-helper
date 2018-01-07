@@ -11,6 +11,9 @@ export const store = new Vuex.Store({
       activePlayer: 1,
       gameStarted: false,
       increaseThreat: true,
+      deadHeroesCost: 0,
+      damageTokens: 0,
+      victoryPool: 0,
     },
     players: [],
   },
@@ -18,7 +21,8 @@ export const store = new Vuex.Store({
     score: state => state.players.length ? 
       state.players.reduce(
         (acc, player) => acc + player.threat, 0
-      ) + (state.status.turn * 10) : 0,
+      ) + (state.status.turn * 10) + state.status.deadHeroesCost + 
+      state.status.damageTokens + state.status.victoryPool: 0,
     lastPlayer: state => state.status.activePlayer - 1 > 0 ? 
       state.status.activePlayer - 1 : state.players.length,
   },
@@ -27,6 +31,9 @@ export const store = new Vuex.Store({
       turn: 1,
       activePlayer: 1,
       gameStarted: true,
+      deadHeroesCost: 0,
+      damageTokens: 0,
+      victoryPool: 0,
     }),
 
     initializePlayers: (state, payload) => {
@@ -91,5 +98,11 @@ export const store = new Vuex.Store({
       state.status.increaseThreat = !state.status.increaseThreat,
 
     makePlayerFirst: (state, payload) => state.status.activePlayer = payload.playerNumber,
+
+    setDeadHeroesCost: (state, payload) => state.status.deadHeroesCost += payload.modifier,
+
+    setDamageTokens: (state, payload) => state.status.damageTokens += payload.modifier,
+
+    setVictoryPool: (state, payload) => state.status.victoryPool += payload.modifier,
   },
 });
