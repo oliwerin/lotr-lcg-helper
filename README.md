@@ -12,8 +12,8 @@ This is also my first Vue.js project.
 yarn
 
 # serve with hot reload at localhost:8080
-yarn run dev
+npm run dev
 
 # build for production with minification
-yarn run build
+npm run build
 ```
